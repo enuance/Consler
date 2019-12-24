@@ -1,5 +1,5 @@
 //
-//  OutputDescriptors.swift
+//  OutputDescriptor.swift
 //  Consler
 //
 //  MIT License
