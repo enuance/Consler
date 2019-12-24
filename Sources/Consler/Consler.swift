@@ -66,17 +66,15 @@ public struct Consler {
         
     }
     
-    static private var standardOut: TerminalController? {
-        return TerminalController(stream: stdoutStream)
-    }
-    
-    static private var standardErr: TerminalController? {
-        return TerminalController(stream: stderrStream)
-    }
+    static private var standardOut: TerminalController? { nil } //TerminalController(stream: stdoutStream) }
+    static private var standardErr: TerminalController? { nil } //TerminalController(stream: stderrStream) }
     
     static public func output(type: OutputType = .standard, descriptors: [OutputDescriptor] = [], values: [String]) {
         let controller = type == .standard ? Consler.standardOut : Consler.standardErr
-        guard let selectedController = controller, !values.isEmpty else { return }
+        guard let selectedController = controller, !values.isEmpty else {
+            DefaultSTDIO(outputType: type).output(descriptors: descriptors, values: values)
+            return
+        }
         let descriptors = descriptors.matchCount(of: values)
         let describedOutputs = zip(values, descriptors)
             .map { DescribedOutput($0, descriptor: $1, controller: selectedController) }
@@ -131,3 +129,41 @@ public struct Consler {
 }
 
 public typealias AppliedDescriptor = (descriptor: OutputDescriptor, valueIndices: [Int])
+
+struct DefaultSTDIO {
+    
+    let outputType: Consler.OutputType
+    
+    private let nextLine = "\n"
+    
+    func writeError(_ value: String) {
+        fputs(value, stderr)
+        //print(value, to: &stderrStream)
+    }
+    
+    func writeStandard(_ value: String) {
+        print(value)
+    }
+    
+    func output(descriptors: [OutputDescriptor] = [], values: [String]) {
+        guard !values.isEmpty else { return }
+        let descriptors = descriptors.matchCount(of: values)
+        var nextLineCandidates = Array(descriptors.map { $0.endsLine }.dropLast())
+        
+        // Both writers alread terminate with next line
+        nextLineCandidates.append(false)
+        
+        let formattedValue = zip(values, nextLineCandidates)
+            .map { $1 ? $0 + nextLine : $0 }
+            .joined()
+        
+        switch outputType {
+        case .standard:
+            writeStandard(formattedValue)
+        case .error:
+            writeError(formattedValue)
+        }
+        
+    }
+    
+}
