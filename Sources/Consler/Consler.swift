@@ -31,25 +31,21 @@ public struct Consler {
     
     internal typealias Color = TerminalController.Color
     
+    static private var standardOut: TerminalController? {
+        TerminalController(stream: stdoutStream)
+    }
+    
+    static private var standardErr: TerminalController? {
+        TerminalController(stream: stderrStream)
+    }
+    
     public enum OutputType {
         case standard
         case error
     }
     
-    public struct OutputDescriptor {
-        
-        internal let color: Color
-        internal let isBold: Bool
-        internal let endsLine: Bool
-        
-        internal init(color: Color, isBold: Bool, endsLine: Bool) {
-            self.color = color
-            self.isBold = isBold
-            self.endsLine = endsLine
-        }
-        
-    }
-    
+    /// Formats the rawValue using the OutputDescriptor and the TerminalController
+    /// The outputValue property should contain fully formatted String ready for terminal output
     private struct DescribedOutput {
         let outputValue: String
         let endsLine: Bool
@@ -66,17 +62,12 @@ public struct Consler {
         
     }
     
-    static private var standardOut: TerminalController? {
-        return TerminalController(stream: stdoutStream)
-    }
-    
-    static private var standardErr: TerminalController? {
-        return TerminalController(stream: stderrStream)
-    }
-    
-    static public func output(type: OutputType = .standard, descriptors: [OutputDescriptor] = [], values: [String]) {
+    static public func output(_ values: [String], descriptors: [OutputDescriptor] = [], type: OutputType = .standard) {
         let controller = type == .standard ? Consler.standardOut : Consler.standardErr
-        guard let selectedController = controller, !values.isEmpty else { return }
+        guard let selectedController = controller, !values.isEmpty else {
+            DefaultSTDIO(outputType: type).output(descriptors: descriptors, values: values)
+            return
+        }
         let descriptors = descriptors.matchCount(of: values)
         let describedOutputs = zip(values, descriptors)
             .map { DescribedOutput($0, descriptor: $1, controller: selectedController) }
@@ -91,15 +82,20 @@ public struct Consler {
         
     }
     
-    static public func output(type: OutputType = .standard, descriptors: [OutputDescriptor] = [], values: String...) {
-        output(type: type, descriptors: descriptors, values: values)
+    static public func output(_ values: String..., descriptors: [OutputDescriptor] = [], type: OutputType = .standard) {
+        output(values, descriptors: descriptors, type: type)
     }
     
-    static public func output(type: OutputType = .standard, descriptor: OutputDescriptor = .normal, value: String) {
-        output(type: type, descriptors: [descriptor], values: [value])
+    static public func output(_ value: String, descriptor: OutputDescriptor = .normal, type: OutputType = .standard) {
+        output([value], descriptors: [descriptor], type: type)
     }
     
-    static public func output(type: OutputType = .standard, appliedDescriptors: [AppliedDescriptor], values: [String]) {
+    static public func output(_ conslerOutput: ConslerOutput, type: OutputType = .standard) {
+        output(conslerOutput.values, descriptors: conslerOutput.descriptors, type: type)
+    }
+    
+    /// Warning: Not yet defaulted by DefaultSTDIO. Will not output in non-TTY contexts
+    static public func output(_ values: [String], appliedDescriptors: [AppliedDescriptor], type: OutputType = .standard) {
         let controller = type == .standard ? Consler.standardOut : Consler.standardErr
         guard let selectedController = controller, !values.isEmpty, !appliedDescriptors.isEmpty else { return }
         let validIndexRange = values.startIndex..<values.endIndex
@@ -125,9 +121,6 @@ public struct Consler {
         
         let lastDescriptionEndsLine = describedOutputs.last?.endsLine ?? false
         if !lastDescriptionEndsLine { selectedController.endLine() }
-        
     }
     
 }
-
-public typealias AppliedDescriptor = (descriptor: OutputDescriptor, valueIndices: [Int])
