@@ -137,8 +137,8 @@ struct DefaultSTDIO {
     private let nextLine = "\n"
     
     func writeError(_ value: String) {
-        fputs(value, stderr)
-        //print(value, to: &stderrStream)
+        //fputs(value, stderr)
+        print(value, to: &stderrStream)
     }
     
     func writeStandard(_ value: String) {
@@ -150,7 +150,7 @@ struct DefaultSTDIO {
         let descriptors = descriptors.matchCount(of: values)
         var nextLineCandidates = Array(descriptors.map { $0.endsLine }.dropLast())
         
-        // Both writers alread terminate with next line
+        // Both writers already terminate with next line
         nextLineCandidates.append(false)
         
         let formattedValue = zip(values, nextLineCandidates)
