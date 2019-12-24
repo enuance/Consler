@@ -130,6 +130,12 @@ public struct Consler {
 
 public typealias AppliedDescriptor = (descriptor: OutputDescriptor, valueIndices: [Int])
 
+struct StderrOutputStream: TextOutputStream {
+    mutating func write(_ string: String) {
+        fputs(string, stderr)
+    }
+}
+
 struct DefaultSTDIO {
     
     let outputType: Consler.OutputType
@@ -138,7 +144,8 @@ struct DefaultSTDIO {
     
     func writeError(_ value: String) {
         //fputs(value, stderr)
-        print(value, to: &stderrStream)
+        var standardError = StderrOutputStream()
+        print(value, to: &standardError)
     }
     
     func writeStandard(_ value: String) {
