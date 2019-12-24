@@ -27,6 +27,24 @@
 import Basic
 import Foundation
 
+public extension Consler {
+    
+    struct OutputDescriptor {
+        
+        internal let color: Color
+        internal let isBold: Bool
+        internal let endsLine: Bool
+        
+        internal init(color: Color, isBold: Bool, endsLine: Bool) {
+            self.color = color
+            self.isBold = isBold
+            self.endsLine = endsLine
+        }
+        
+    }
+    
+}
+
 public typealias OutputDescriptor = Consler.OutputDescriptor
 
 // MARK: - OutputDescriptor Convenience Properties
