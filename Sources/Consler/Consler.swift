@@ -66,8 +66,8 @@ public struct Consler {
         
     }
     
-    static private var standardOut: TerminalController? { nil } //TerminalController(stream: stdoutStream) }
-    static private var standardErr: TerminalController? { nil } //TerminalController(stream: stderrStream) }
+    static private var standardOut: TerminalController? { TerminalController(stream: stdoutStream) }
+    static private var standardErr: TerminalController? { TerminalController(stream: stderrStream) }
     
     static public func output(type: OutputType = .standard, descriptors: [OutputDescriptor] = [], values: [String]) {
         let controller = type == .standard ? Consler.standardOut : Consler.standardErr
