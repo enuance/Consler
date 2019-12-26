@@ -39,6 +39,7 @@ public struct Consler {
         TerminalController(stream: stderrStream)
     }
     
+    /// The output type that the Consler should write to
     public enum OutputType {
         case standard
         case error
@@ -82,33 +83,24 @@ public struct Consler {
         
     }
     
-    static public func output(_ values: String..., descriptors: [OutputDescriptor] = [], type: OutputType = .standard) {
-        output(values, descriptors: descriptors, type: type)
-    }
-    
-    static public func output(_ value: String, descriptor: OutputDescriptor = .normal, type: OutputType = .standard) {
-        output([value], descriptors: [descriptor], type: type)
-    }
-    
-    static public func output(_ conslerOutput: ConslerOutput, type: OutputType = .standard) {
-        output(conslerOutput.values, descriptors: conslerOutput.descriptors, type: type)
-    }
-    
     /// Warning: Not yet defaulted by DefaultSTDIO. Will not output in non-TTY contexts
     static public func output(_ values: [String], appliedDescriptors: [AppliedDescriptor], type: OutputType = .standard) {
         let controller = type == .standard ? Consler.standardOut : Consler.standardErr
-        guard let selectedController = controller, !values.isEmpty, !appliedDescriptors.isEmpty else { return }
+        guard let selectedController = controller, !values.isEmpty, !appliedDescriptors.isEmpty else {
+            DefaultSTDIO(outputType: type).output(appliedDescriptors: appliedDescriptors, values: values)
+            return
+        }
         let validIndexRange = values.startIndex..<values.endIndex
         
         let validatedAppDescriptors = appliedDescriptors.map { appDescriptor -> AppliedDescriptor in
-            let validIndices = appDescriptor.valueIndices.filter { validIndexRange.contains($0) }
-            return (descriptor: appDescriptor.descriptor, valueIndices: validIndices)
+            let validIndices = appDescriptor.applicationIndices.filter { validIndexRange.contains($0) }
+            return AppliedDescriptor(descriptor: appDescriptor.descriptor, applicationIndices: validIndices)
         }
         
         var descriptors = [OutputDescriptor]().matchCount(of: values)
         
         validatedAppDescriptors.forEach { appDescriptor in
-            appDescriptor.valueIndices.forEach { descriptors[$0] = appDescriptor.descriptor }
+            appDescriptor.applicationIndices.forEach { descriptors[$0] = appDescriptor.descriptor }
         }
         
         let describedOutputs = zip(values, descriptors)
@@ -121,6 +113,31 @@ public struct Consler {
         
         let lastDescriptionEndsLine = describedOutputs.last?.endsLine ?? false
         if !lastDescriptionEndsLine { selectedController.endLine() }
+    }
+    
+}
+
+public extension Consler {
+    
+    static func output(_ values: String..., descriptors: [OutputDescriptor] = [], type: OutputType = .standard) {
+        output(values, descriptors: descriptors, type: type)
+    }
+    
+    static func output(_ value: String, descriptor: OutputDescriptor = .normal, type: OutputType = .standard) {
+        output([value], descriptors: [descriptor], type: type)
+    }
+    
+    static func output(_ values: String..., appliedDescriptors: [AppliedDescriptor], type: OutputType = .standard) {
+        output(values, appliedDescriptors: appliedDescriptors, type: type)
+    }
+    
+    static func output(_ conslerOutput: ConslerOutput, type: OutputType = .standard) {
+        switch conslerOutput.type {
+        case .normal:
+            output(conslerOutput.values, descriptors: conslerOutput.descriptors, type: type)
+        case .applied:
+            output(conslerOutput.values, appliedDescriptors: conslerOutput.appliedDescriptors, type: type)
+        }
     }
     
 }
