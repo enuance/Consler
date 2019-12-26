@@ -71,4 +71,38 @@ struct DefaultSTDIO {
         
     }
     
+    func output(appliedDescriptors: [AppliedDescriptor], values: [String]) {
+        guard !values.isEmpty else { return }
+        
+        let validIndexRange = values.startIndex..<values.endIndex
+        
+        let validatedAppDescriptors = appliedDescriptors.map { appDescriptor -> AppliedDescriptor in
+            let validIndices = appDescriptor.applicationIndices.filter { validIndexRange.contains($0) }
+            return AppliedDescriptor(descriptor: appDescriptor.descriptor, applicationIndices: validIndices)
+        }
+        
+        var descriptors = [OutputDescriptor]().matchCount(of: values)
+        
+        validatedAppDescriptors.forEach { appDescriptor in
+            appDescriptor.applicationIndices.forEach { descriptors[$0] = appDescriptor.descriptor }
+        }
+        
+        var nextLineCandidates = Array(descriptors.map { $0.endsLine }.dropLast())
+        
+        // Both writers already terminate with next line
+        nextLineCandidates.append(false)
+        
+        let formattedValue = zip(values, nextLineCandidates)
+            .map { $1 ? $0 + nextLine : $0 }
+            .joined()
+        
+        switch outputType {
+        case .standard:
+            writeStandard(formattedValue)
+        case .error:
+            writeError(formattedValue)
+        }
+        
+    }
+    
 }
