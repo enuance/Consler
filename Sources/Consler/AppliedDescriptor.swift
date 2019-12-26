@@ -26,6 +26,7 @@
 
 import Foundation
 
+/// Convenience Type for transmitting Applied Consler Descriptors to eventually be outputed by Consler
 public struct AppliedDescriptor {
     
     let descriptor: OutputDescriptor

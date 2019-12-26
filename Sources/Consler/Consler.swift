@@ -39,6 +39,7 @@ public struct Consler {
         TerminalController(stream: stderrStream)
     }
     
+    /// The output type that the Consler should write to
     public enum OutputType {
         case standard
         case error
