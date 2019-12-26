@@ -29,17 +29,35 @@ import Foundation
 /// Convenience Type for transmitting Consler Values to eventually be outputed by Consler
 public struct ConslerOutput {
     
-    public let values: [String]
-    public let descriptors: [OutputDescriptor]
-    
-    public init(values: [String], descriptors: [OutputDescriptor] = []) {
-        self.values = values
-        self.descriptors = descriptors
+    internal enum DescriptorType {
+        case normal
+        case applied
     }
     
+    internal let type: DescriptorType
+    public let values: [String]
+    public let descriptors: [OutputDescriptor]
+    public let appliedDescriptors: [AppliedDescriptor]
+    
     public init(_ values: String...) {
+        self.type = .normal
         self.values = values
         self.descriptors = []
+        self.appliedDescriptors = []
+    }
+    
+    public init(values: [String], descriptors: [OutputDescriptor] = []) {
+        self.type = .normal
+        self.values = values
+        self.descriptors = descriptors
+        self.appliedDescriptors = []
+    }
+    
+    public init(values: [String], appliedDescriptors: [AppliedDescriptor] = []) {
+        self.type = .applied
+        self.values = values
+        self.descriptors = []
+        self.appliedDescriptors = appliedDescriptors
     }
     
     public func describedBy(_ descriptors: OutputDescriptor...) -> ConslerOutput {
@@ -48,6 +66,14 @@ public struct ConslerOutput {
     
     public func describedBy(_ descriptors: [OutputDescriptor]) -> ConslerOutput {
         ConslerOutput(values: self.values, descriptors: descriptors)
+    }
+    
+    public func describedBy(_ appliedDescriptors: AppliedDescriptor...) -> ConslerOutput {
+        ConslerOutput(values: self.values, appliedDescriptors: appliedDescriptors)
+    }
+    
+    public func describedBy(_ appliedDescriptors: [AppliedDescriptor]) -> ConslerOutput {
+        ConslerOutput(values: self.values, appliedDescriptors: appliedDescriptors)
     }
     
 }
