@@ -27,7 +27,7 @@
 import Foundation
 
 /// Default Output Stream for Errors
-struct StderrOutputStream: TextOutputStream {
+private struct StderrOutputStream: TextOutputStream {
     mutating func write(_ string: String) {
         fputs(string, stderr)
     }
@@ -35,7 +35,7 @@ struct StderrOutputStream: TextOutputStream {
 
 /// When TTY is not available, we still need a way to output to the TextOutputStream.
 /// DefaultSTDIO allows us to do that.
-struct DefaultSTDIO {
+internal struct DefaultSTDIO {
     
     let outputType: Consler.OutputType
     
@@ -50,7 +50,7 @@ struct DefaultSTDIO {
         print(value)
     }
     
-    func output(descriptors: [OutputDescriptor] = [], values: [String]) {
+    func output(values: [String], descriptors: [OutputDescriptor] = []) {
         guard !values.isEmpty else { return }
         let descriptors = descriptors.matchCount(of: values)
         var nextLineCandidates = Array(descriptors.map { $0.endsLine }.dropLast())
@@ -71,7 +71,7 @@ struct DefaultSTDIO {
         
     }
     
-    func output(appliedDescriptors: [AppliedDescriptor], values: [String]) {
+    func output(values: [String], appliedDescriptors: [AppliedDescriptor]) {
         guard !values.isEmpty else { return }
         
         let validIndexRange = values.startIndex..<values.endIndex
