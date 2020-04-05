@@ -31,13 +31,20 @@ public extension Consler {
     
     struct OutputDescriptor {
         
-        internal let color: Color
-        internal let isBold: Bool
+        internal let textColor: TextColor
+        internal let backgroundColor: BackgroundColor
+        internal let formats: Set<TextFormat>
         internal let endsLine: Bool
         
-        internal init(color: Color, isBold: Bool, endsLine: Bool) {
-            self.color = color
-            self.isBold = isBold
+        internal init(
+            color: TextColor,
+            background: BackgroundColor = .normal,
+            formats: Set<TextFormat> = [],
+            endsLine: Bool = false
+        ) {
+            self.textColor = color
+            self.backgroundColor = background
+            self.formats = formats
             self.endsLine = endsLine
         }
         
@@ -48,48 +55,135 @@ public extension Consler {
 public typealias OutputDescriptor = Consler.OutputDescriptor
 
 // MARK: - OutputDescriptor Convenience Properties
+
 public extension OutputDescriptor {
-
-    static var normal: OutputDescriptor { OutputDescriptor(color: .noColor, isBold: false, endsLine: false) }
-    static var bold: OutputDescriptor { OutputDescriptor(color: .noColor, isBold: true, endsLine: false) }
-    static var endsLine: OutputDescriptor { OutputDescriptor(color: .noColor, isBold: false, endsLine: true) }
-    static var boldEndsLine: OutputDescriptor { OutputDescriptor(color: .noColor, isBold: true, endsLine: true) }
-
-    static var red: OutputDescriptor { OutputDescriptor(color: .red, isBold: false, endsLine: false) }
-    static var redEndsLine: OutputDescriptor { OutputDescriptor(color: .red, isBold: false, endsLine: true) }
-    static var boldRed: OutputDescriptor { OutputDescriptor(color: .red, isBold: true, endsLine: false) }
-    static var boldRedEndsLine: OutputDescriptor { OutputDescriptor(color: .red, isBold: true, endsLine: true) }
-
-    static var green: OutputDescriptor { OutputDescriptor(color: .green, isBold: false, endsLine: false) }
-    static var greenEndsLine: OutputDescriptor { OutputDescriptor(color: .green, isBold: false, endsLine: true) }
-    static var boldGreen: OutputDescriptor { OutputDescriptor(color: .green, isBold: true, endsLine: false) }
-    static var boldGreenEndsLine: OutputDescriptor { OutputDescriptor(color: .green, isBold: true, endsLine: true) }
-
-    static var yellow: OutputDescriptor { OutputDescriptor(color: .yellow, isBold: false, endsLine: false) }
-    static var yellowEndsLine: OutputDescriptor { OutputDescriptor(color: .yellow, isBold: false, endsLine: true) }
-    static var boldYellow: OutputDescriptor { OutputDescriptor(color: .yellow, isBold: true, endsLine: false) }
-    static var boldYellowEndsLine: OutputDescriptor { OutputDescriptor(color: .yellow, isBold: true, endsLine: true) }
-
-    static var cyan: OutputDescriptor { OutputDescriptor(color: .cyan, isBold: false, endsLine: false) }
-    static var cyanEndsLine: OutputDescriptor { OutputDescriptor(color: .cyan, isBold: false, endsLine: true) }
-    static var boldCyan: OutputDescriptor { OutputDescriptor(color: .cyan, isBold: true, endsLine: false) }
-    static var boldCyanEndsLine: OutputDescriptor { OutputDescriptor(color: .cyan, isBold: true, endsLine: true) }
-
-    static var white: OutputDescriptor { OutputDescriptor(color: .white, isBold: false, endsLine: false) }
-    static var whiteEndsLine: OutputDescriptor { OutputDescriptor(color: .white, isBold: false, endsLine: true) }
-    static var boldWhite: OutputDescriptor { OutputDescriptor(color: .white, isBold: true, endsLine: false) }
-    static var boldWhiteEndsLine: OutputDescriptor { OutputDescriptor(color: .white, isBold: true, endsLine: true) }
-
-    static var black: OutputDescriptor { OutputDescriptor(color: .black, isBold: false, endsLine: false) }
-    static var blackEndsLine: OutputDescriptor { OutputDescriptor(color: .black, isBold: false, endsLine: true) }
-    static var boldBlack: OutputDescriptor { OutputDescriptor(color: .black, isBold: true, endsLine: false) }
-    static var boldBlackEndsLine: OutputDescriptor { OutputDescriptor(color: .black, isBold: true, endsLine: true) }
-
-    static var gray: OutputDescriptor { OutputDescriptor(color: .grey, isBold: false, endsLine: false) }
-    static var grayEndsLine: OutputDescriptor { OutputDescriptor(color: .grey, isBold: false, endsLine: true) }
-    static var boldGrey: OutputDescriptor { OutputDescriptor(color: .grey, isBold: true, endsLine: false) }
-    static var boldGreyEndsLine: OutputDescriptor { OutputDescriptor(color: .grey, isBold: true, endsLine: true) }
-
+    
+    static var normal: OutputDescriptor { OutputDescriptor(color: .normal) }
+    
+    static var endsLine: OutputDescriptor { OutputDescriptor(color: .normal, endsLine: true) }
+    
+    static func normal(_ formats: Set<TextFormat>) -> OutputDescriptor {
+        OutputDescriptor(color: .normal, formats: formats)
+    }
+    
+    static func endsLine(_ formats: Set<TextFormat>) -> OutputDescriptor {
+        OutputDescriptor(color: .normal, formats: formats, endsLine: true)
+    }
+    
+    static var red: OutputDescriptor { OutputDescriptor(color: .red) }
+    
+    static var redEndsLine: OutputDescriptor { OutputDescriptor(color: .red, endsLine: true) }
+    
+    static func red(_ formats: Set<TextFormat>) -> OutputDescriptor {
+        OutputDescriptor(color: .red, formats: formats)
+    }
+    
+    static func redEndsLine(_ formats: Set<TextFormat>) -> OutputDescriptor {
+        OutputDescriptor(color: .red, formats: formats, endsLine: true)
+    }
+    
+    static var black: OutputDescriptor { OutputDescriptor(color: .black) }
+    
+    static var blackEndsLine: OutputDescriptor { OutputDescriptor(color: .black, endsLine: true) }
+    
+    static func black(_ formats: Set<TextFormat>) -> OutputDescriptor {
+        OutputDescriptor(color: .black, formats: formats)
+    }
+    
+    static func blackEndsLine(_ formats: Set<TextFormat>) -> OutputDescriptor {
+        OutputDescriptor(color: .black, formats: formats, endsLine: true)
+    }
+    
+    static var green: OutputDescriptor { OutputDescriptor(color: .green) }
+    
+    static var greenEndsLine: OutputDescriptor { OutputDescriptor(color: .green, endsLine: true) }
+    
+    static func green(_ formats: Set<TextFormat>) -> OutputDescriptor {
+        OutputDescriptor(color: .green, formats: formats)
+    }
+    
+    static func greenEndsLine(_ formats: Set<TextFormat>) -> OutputDescriptor {
+        OutputDescriptor(color: .green, formats: formats, endsLine: true)
+    }
+    
+    static var yellow: OutputDescriptor { OutputDescriptor(color: .yellow) }
+    
+    static var yellowEndsLine: OutputDescriptor { OutputDescriptor(color: .yellow, endsLine: true) }
+    
+    static func yellow(_ formats: Set<TextFormat>) -> OutputDescriptor {
+        OutputDescriptor(color: .yellow, formats: formats)
+    }
+    
+    static func yellowEndsLine(_ formats: Set<TextFormat>) -> OutputDescriptor {
+        OutputDescriptor(color: .yellow, formats: formats, endsLine: true)
+    }
+    
+    static var magenta: OutputDescriptor { OutputDescriptor(color: .magenta) }
+    
+    static var magentaEndsLine: OutputDescriptor { OutputDescriptor(color: .magenta, endsLine: true) }
+    
+    static func magenta(_ formats: Set<TextFormat>) -> OutputDescriptor {
+        OutputDescriptor(color: .magenta, formats: formats)
+    }
+    
+    static func magentaEndsLine(_ formats: Set<TextFormat>) -> OutputDescriptor {
+        OutputDescriptor(color: .magenta, formats: formats, endsLine: true)
+    }
+    
+    
+    static var cyan: OutputDescriptor { OutputDescriptor(color: .cyan) }
+    
+    static var cyanEndsLine: OutputDescriptor { OutputDescriptor(color: .cyan, endsLine: true) }
+    
+    static func cyan(_ formats: Set<TextFormat>) -> OutputDescriptor {
+        OutputDescriptor(color: .cyan, formats: formats)
+    }
+    
+    static func cyanEndsLine(_ formats: Set<TextFormat>) -> OutputDescriptor {
+        OutputDescriptor(color: .cyan, formats: formats, endsLine: true)
+    }
+    
+    
+    static var gray: OutputDescriptor { OutputDescriptor(color: .lightGray) }
+    
+    static var grayEndsLine: OutputDescriptor { OutputDescriptor(color: .lightGray, endsLine: true) }
+    
+    static func gray(_ formats: Set<TextFormat>) -> OutputDescriptor {
+        OutputDescriptor(color: .lightGray, formats: formats)
+    }
+    
+    static func grayEndsLine(_ formats: Set<TextFormat>) -> OutputDescriptor {
+        OutputDescriptor(color: .lightGray, formats: formats, endsLine: true)
+    }
+    
+    static var white: OutputDescriptor { OutputDescriptor(color: .white) }
+    
+    static var whiteEndsLine: OutputDescriptor { OutputDescriptor(color: .white, endsLine: true) }
+    
+    static func white(_ formats: Set<TextFormat>) -> OutputDescriptor {
+        OutputDescriptor(color: .white, formats: formats)
+    }
+    
+    static func whiteEndsLine(_ formats: Set<TextFormat>) -> OutputDescriptor {
+        OutputDescriptor(color: .white, formats: formats, endsLine: true)
+    }
+    
+    static func custom(
+        color: TextColor,
+        background: BackgroundColor = .normal,
+        formats: Set<TextFormat> = []
+    ) -> OutputDescriptor {
+        OutputDescriptor(color: color, background: background, formats: formats, endsLine: false)
+    }
+    
+    static func customEndsLine(
+        color: TextColor,
+        background: BackgroundColor = .normal,
+        formats: Set<TextFormat> = []
+    ) -> OutputDescriptor {
+        OutputDescriptor(color: color, background: background, formats: formats, endsLine: true)
+    }
+    
 }
 
 internal extension Array where Element == OutputDescriptor {
