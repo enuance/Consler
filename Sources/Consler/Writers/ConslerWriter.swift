@@ -28,7 +28,7 @@ import Basic
 import Foundation
 
 /// Wrapper for the TerminalController to enable extended colors and formats
-internal struct ConslerWriter {
+internal final class ConslerWriter {
 
     /// Pointer to output stream to operate on.
     private var stream: OutputByteStream
