@@ -15,7 +15,6 @@ let package = Package(
         .package(url: "https://github.com/apple/swift-package-manager", from: "0.5.0")
     ],
     targets: [
-
         .target(
             name: "Consler",
             dependencies: ["SPMUtility"]),
