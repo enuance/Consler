@@ -1,5 +1,5 @@
 //
-//  DefaultSTDIO.swift
+//  DefaultWriter.swift
 //  Consler
 //
 //  MIT License
@@ -34,8 +34,8 @@ private struct StderrOutputStream: TextOutputStream {
 }
 
 /// When TTY is not available, we still need a way to output to the TextOutputStream.
-/// DefaultSTDIO allows us to do that.
-internal struct DefaultSTDIO {
+/// DefaultWriter allows us to do that.
+internal struct DefaultWriter {
     
     let outputType: Consler.OutputType
     

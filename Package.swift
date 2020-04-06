@@ -11,11 +11,10 @@ let package = Package(
             targets: ["Consler"]),
     ],
     dependencies: [
-        // 🧰 SPMUtilities for CLI Argument Parsing.
-        .package(url: "https://github.com/apple/swift-package-manager", from: "0.5.0")
+        // 🧰 SPMUtilities for Output Byte Stream Wrappers.
+        .package(url: "https://github.com/apple/swift-package-manager", .exact("0.5.0"))
     ],
     targets: [
-
         .target(
             name: "Consler",
             dependencies: ["SPMUtility"]),

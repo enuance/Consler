@@ -24,7 +24,8 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //  SOFTWARE.
 
-import Basic
+import var Basic.stdoutStream
+import var Basic.stderrStream
 import Foundation
 
 /// Consler provides convenient access to input and output to the console. Notabley, the output functions provide an easy way to format
@@ -32,15 +33,12 @@ import Foundation
 ///
 public struct Consler {
     
-    /// Available Console Colors
-    internal typealias Color = TerminalController.Color
-    
-    static private var standardOut: TerminalController? {
-        TerminalController(stream: stdoutStream)
+    static private var standardOut: ConslerWriter? {
+        ConslerWriter(stream: stdoutStream)
     }
     
-    static private var standardErr: TerminalController? {
-        TerminalController(stream: stderrStream)
+    static private var standardErr: ConslerWriter? {
+        ConslerWriter(stream: stderrStream)
     }
     
     /// The output type that the Consler should write to
@@ -60,8 +58,13 @@ public struct Consler {
             self.endsLine = endsLine
         }
         
-        init(_ rawValue: String, descriptor: OutputDescriptor = .normal, controller: TerminalController) {
-            let newOutputValue = controller.wrap(rawValue, inColor: descriptor.color, bold: descriptor.isBold)
+        init(_ rawValue: String, descriptor: OutputDescriptor = .normal, writer: ConslerWriter) {
+            let newOutputValue = writer.description(
+                for: rawValue,
+                color: descriptor.textColor,
+                background: descriptor.backgroundColor,
+                formats: descriptor.formats
+            )
             self.init(outputValue: newOutputValue, endsLine: descriptor.endsLine)
         }
         
@@ -91,9 +94,9 @@ public struct Consler {
     static public func output(_ values: [String], descriptors: [OutputDescriptor] = [], type: OutputType = .standard) {
         
         // Determine and set the chosen Console Writer Type and output type for the writer
-        let controller = type == .standard ? Consler.standardOut : Consler.standardErr
-        guard let selectedController = controller, !values.isEmpty else {
-            DefaultSTDIO(outputType: type).output(values: values, descriptors: descriptors)
+        let writer = type == .standard ? Consler.standardOut : Consler.standardErr
+        guard let selectedWriter = writer, !values.isEmpty else {
+            DefaultWriter(outputType: type).output(values: values, descriptors: descriptors)
             return
         }
         
@@ -102,17 +105,17 @@ public struct Consler {
         
         // Format each of the values as described by the associated descriptors.
         let describedOutputs = zip(values, descriptors)
-            .map { DescribedOutput($0, descriptor: $1, controller: selectedController) }
+            .map { DescribedOutput($0, descriptor: $1, writer: selectedWriter) }
         
         // Write out the formatted values and interject next lines where endLine descriptors were provided.
         describedOutputs.forEach { description in
-            selectedController.write(description.outputValue)
-            if description.endsLine { selectedController.endLine() }
+            selectedWriter.write(description.outputValue)
+            if description.endsLine { selectedWriter.endLine() }
         }
         
         // Terminate the write with a final next line
         let lastDescriptionEndsLine = describedOutputs.last?.endsLine ?? false
-        if !lastDescriptionEndsLine { selectedController.endLine() }
+        if !lastDescriptionEndsLine { selectedWriter.endLine() }
     }
     
     /// Output values to the Console
@@ -135,9 +138,9 @@ public struct Consler {
     static public func output(_ values: [String], appliedDescriptors: [AppliedDescriptor], type: OutputType = .standard) {
         
         // Determine and set the chosen Console Writer Type and output type for the writer
-        let controller = type == .standard ? Consler.standardOut : Consler.standardErr
-        guard let selectedController = controller, !values.isEmpty, !appliedDescriptors.isEmpty else {
-            DefaultSTDIO(outputType: type).output(values: values, appliedDescriptors: appliedDescriptors)
+        let writer = type == .standard ? Consler.standardOut : Consler.standardErr
+        guard let selectedWriter = writer, !values.isEmpty, !appliedDescriptors.isEmpty else {
+            DefaultWriter(outputType: type).output(values: values, appliedDescriptors: appliedDescriptors)
             return
         }
         
@@ -160,17 +163,17 @@ public struct Consler {
         
         // Format each of the values as described by the associated descriptors.
         let describedOutputs = zip(values, descriptors)
-            .map { DescribedOutput($0, descriptor: $1, controller: selectedController) }
+            .map { DescribedOutput($0, descriptor: $1, writer: selectedWriter) }
         
         // Write out the formatted values and interject next lines where endLine descriptors were provided.
         describedOutputs.forEach { description in
-            selectedController.write(description.outputValue)
-            if description.endsLine { selectedController.endLine() }
+            selectedWriter.write(description.outputValue)
+            if description.endsLine { selectedWriter.endLine() }
         }
         
         // Terminate the write with a final next line
         let lastDescriptionEndsLine = describedOutputs.last?.endsLine ?? false
-        if !lastDescriptionEndsLine { selectedController.endLine() }
+        if !lastDescriptionEndsLine { selectedWriter.endLine() }
     }
     
 }
