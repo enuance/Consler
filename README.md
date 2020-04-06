@@ -72,7 +72,7 @@ Consler.output(
     // The second param `descriptors` is an array of `OutputDescriptor` which describes how the
     // values in the first param should be formatted. The descriptor will be applied to the value
     // that matches it's index. Values without a descriptor will default to `.normal`
-    descriptors: [.boldRed], 
+    descriptors: [.red(.bold)], 
     
     // The last param is the type of output either .standard or .error
     type: .error)
@@ -96,7 +96,7 @@ Sometimes it's easier to pass around the values and descriptors together and out
 
 func getSuccessMessage() -> ConslerOutput {
     return ConslerOutput("", "Sucsess: ", "Save Transaction Finished")
-    .describedBy(.endsLine, .boldGreen, .green)
+    .describedBy(.endsLine, .green(.bold), .green)
 }
 
 let successOutput = getSuccessMessage()
@@ -132,10 +132,10 @@ func getLogoOutput() -> ConslerOutput {
         // AppliedDescriptors use indices to select which values to apply the specified descriptor
         // All invalid indices are ignored. Repeated indices will be overwritten by the last 
         // descriptor containing the repeated index.
-        .boldRedEndsLine(0, 16, 18), 
-        .boldRed(1, 3, 5, 7, 9, 11, 13),
-        .redEndsLine(2, 4, 6, 8, 10, 12, 14), 
-        .boldCyanEndsLine(17), 
+        .redEndsLine([.bold], at: 0, 16, 18), 
+        .red([.bold], at: 1, 3, 5, 7, 9, 11, 13),
+        .redEndsLine(at: 2, 4, 6, 8, 10, 12, 14), 
+        .cyanEndsLine([.bold], at: 17), 
         .endsLine(15, 19, 20)
     )
     
@@ -168,13 +168,24 @@ Consler.input()
 ```
 
 Supported Console Formats include:
-- End Line
+
+For both text and background colors
 - Normal
+- Red / Light Red
+- Green / Light Green
+- Yellow / Light Yellow
+- Blue / Light Blue
+- Magenta / Light Magenta
+- Cyan / Light Cyan
+- White / Black
+- Gray / Dark Gray
+
+- 256 XTerm Colors, specified as 0 - 255.
+See https://jonasjacek.github.io/colors/ for reference
+
 - Bold
-- Red
-- Green
-- Yellow
-- Cyan
-- White
-- Gray
-- Black
+- Dim
+- Underlined
+- Blinking
+- Inverted
+- Hidden

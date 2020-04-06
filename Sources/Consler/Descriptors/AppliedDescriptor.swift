@@ -41,210 +41,210 @@ public struct AppliedDescriptor {
 
 public extension AppliedDescriptor {
     
-    static func normal(_ positions: Int...) -> AppliedDescriptor {
+    static func normal(at positions: Int...) -> AppliedDescriptor {
         AppliedDescriptor(descriptor: .normal, applicationIndices: positions)
     }
     
-    static func endsLine(_ positions: Int...) -> AppliedDescriptor {
+    static func endsLine(at positions: Int...) -> AppliedDescriptor {
         AppliedDescriptor(descriptor: .endsLine, applicationIndices: positions)
     }
     
-    static func normal(_ formats: Set<TextFormat>, positions: Int...) -> AppliedDescriptor {
+    static func normal(_ formats: Set<TextFormat>, at positions: Int...) -> AppliedDescriptor {
         AppliedDescriptor(
             descriptor: .custom(color: .normal, formats: formats),
             applicationIndices: positions)
     }
     
-    static func endsLine(_ formats: Set<TextFormat>, positions: Int...) -> AppliedDescriptor {
+    static func endsLine(_ formats: Set<TextFormat>, at positions: Int...) -> AppliedDescriptor {
         AppliedDescriptor(
             descriptor: .customEndsLine(color: .normal, formats: formats),
             applicationIndices: positions)
     }
     
     
-    static func black(_ positions: Int...) -> AppliedDescriptor {
+    static func black(at positions: Int...) -> AppliedDescriptor {
         AppliedDescriptor(descriptor: .black, applicationIndices: positions)
     }
     
-    static func blackEndsLine(_ positions: Int...) -> AppliedDescriptor {
+    static func blackEndsLine(at positions: Int...) -> AppliedDescriptor {
         AppliedDescriptor(descriptor: .blackEndsLine, applicationIndices: positions)
     }
     
-    static func black(_ formats: Set<TextFormat>, positions: Int...) -> AppliedDescriptor {
+    static func black(_ formats: Set<TextFormat>, at positions: Int...) -> AppliedDescriptor {
         AppliedDescriptor(
             descriptor: .custom(color: .black, formats: formats),
             applicationIndices: positions)
     }
     
-    static func blackEndsLine(_ formats: Set<TextFormat>, positions: Int...) -> AppliedDescriptor {
+    static func blackEndsLine(_ formats: Set<TextFormat>, at positions: Int...) -> AppliedDescriptor {
         AppliedDescriptor(
             descriptor: .customEndsLine(color: .black, formats: formats),
             applicationIndices: positions)
     }
     
     
-    static func red(_ positions: Int...) -> AppliedDescriptor {
+    static func red(at positions: Int...) -> AppliedDescriptor {
         AppliedDescriptor(descriptor: .red, applicationIndices: positions)
     }
     
-    static func redEndsLine(_ positions: Int...) -> AppliedDescriptor {
+    static func redEndsLine(at positions: Int...) -> AppliedDescriptor {
         AppliedDescriptor(descriptor: .redEndsLine, applicationIndices: positions)
     }
     
-    static func red(_ formats: Set<TextFormat>, positions: Int...) -> AppliedDescriptor {
+    static func red(_ formats: Set<TextFormat>, at positions: Int...) -> AppliedDescriptor {
         AppliedDescriptor(
             descriptor: .custom(color: .red, formats: formats),
             applicationIndices: positions)
     }
     
-    static func redEndsLine(_ formats: Set<TextFormat>, positions: Int...) -> AppliedDescriptor {
+    static func redEndsLine(_ formats: Set<TextFormat>, at positions: Int...) -> AppliedDescriptor {
         AppliedDescriptor(
             descriptor: .customEndsLine(color: .red, formats: formats),
             applicationIndices: positions)
     }
     
     
-    static func green(_ positions: Int...) -> AppliedDescriptor {
+    static func green(at positions: Int...) -> AppliedDescriptor {
         AppliedDescriptor(descriptor: .green, applicationIndices: positions)
     }
     
-    static func greenEndsLine(_ positions: Int...) -> AppliedDescriptor {
+    static func greenEndsLine(at positions: Int...) -> AppliedDescriptor {
         AppliedDescriptor(descriptor: .greenEndsLine, applicationIndices: positions)
     }
     
-    static func green(_ formats: Set<TextFormat>, positions: Int...) -> AppliedDescriptor {
+    static func green(_ formats: Set<TextFormat>, at positions: Int...) -> AppliedDescriptor {
         AppliedDescriptor(
             descriptor: .custom(color: .green, formats: formats),
             applicationIndices: positions)
     }
     
-    static func greenEndsLine(_ formats: Set<TextFormat>, positions: Int...) -> AppliedDescriptor {
+    static func greenEndsLine(_ formats: Set<TextFormat>, at positions: Int...) -> AppliedDescriptor {
         AppliedDescriptor(
             descriptor: .customEndsLine(color: .green, formats: formats),
             applicationIndices: positions)
     }
     
     
-    static func yellow(_ positions: Int...) -> AppliedDescriptor {
+    static func yellow(at positions: Int...) -> AppliedDescriptor {
         AppliedDescriptor(descriptor: .yellow, applicationIndices: positions)
     }
     
-    static func yellowEndsLine(_ positions: Int...) -> AppliedDescriptor {
+    static func yellowEndsLine(at positions: Int...) -> AppliedDescriptor {
         AppliedDescriptor(descriptor: .yellowEndsLine, applicationIndices: positions)
     }
     
-    static func yellow(_ formats: Set<TextFormat>, positions: Int...) -> AppliedDescriptor {
+    static func yellow(_ formats: Set<TextFormat>, at positions: Int...) -> AppliedDescriptor {
         AppliedDescriptor(
             descriptor: .custom(color: .yellow, formats: formats),
             applicationIndices: positions)
     }
     
-    static func yellowEndsLine(_ formats: Set<TextFormat>, positions: Int...) -> AppliedDescriptor {
+    static func yellowEndsLine(_ formats: Set<TextFormat>, at positions: Int...) -> AppliedDescriptor {
         AppliedDescriptor(
             descriptor: .customEndsLine(color: .yellow, formats: formats),
             applicationIndices: positions)
     }
     
     
-    static func blue(_ positions: Int...) -> AppliedDescriptor {
+    static func blue(at positions: Int...) -> AppliedDescriptor {
         AppliedDescriptor(descriptor: .blue, applicationIndices: positions)
     }
     
-    static func blueEndsLine(_ positions: Int...) -> AppliedDescriptor {
+    static func blueEndsLine(at positions: Int...) -> AppliedDescriptor {
         AppliedDescriptor(descriptor: .blueEndsLine, applicationIndices: positions)
     }
     
-    static func blue(_ formats: Set<TextFormat>, positions: Int...) -> AppliedDescriptor {
+    static func blue(_ formats: Set<TextFormat>, at positions: Int...) -> AppliedDescriptor {
         AppliedDescriptor(
             descriptor: .custom(color: .blue, formats: formats),
             applicationIndices: positions)
     }
     
-    static func blueEndsLine(_ formats: Set<TextFormat>, positions: Int...) -> AppliedDescriptor {
+    static func blueEndsLine(_ formats: Set<TextFormat>, at positions: Int...) -> AppliedDescriptor {
         AppliedDescriptor(
             descriptor: .customEndsLine(color: .blue, formats: formats),
             applicationIndices: positions)
     }
     
     
-    static func magenta(_ positions: Int...) -> AppliedDescriptor {
+    static func magenta(at positions: Int...) -> AppliedDescriptor {
         AppliedDescriptor(descriptor: .magenta, applicationIndices: positions)
     }
     
-    static func magentaEndsLine(_ positions: Int...) -> AppliedDescriptor {
+    static func magentaEndsLine(at positions: Int...) -> AppliedDescriptor {
         AppliedDescriptor(descriptor: .magentaEndsLine, applicationIndices: positions)
     }
     
-    static func magenta(_ formats: Set<TextFormat>, positions: Int...) -> AppliedDescriptor {
+    static func magenta(_ formats: Set<TextFormat>, at positions: Int...) -> AppliedDescriptor {
         AppliedDescriptor(
             descriptor: .custom(color: .magenta, formats: formats),
             applicationIndices: positions)
     }
     
-    static func magentaEndsLine(_ formats: Set<TextFormat>, positions: Int...) -> AppliedDescriptor {
+    static func magentaEndsLine(_ formats: Set<TextFormat>, at positions: Int...) -> AppliedDescriptor {
         AppliedDescriptor(
             descriptor: .customEndsLine(color: .magenta, formats: formats),
             applicationIndices: positions)
     }
     
     
-    static func cyan(_ positions: Int...) -> AppliedDescriptor {
+    static func cyan(at positions: Int...) -> AppliedDescriptor {
         AppliedDescriptor(descriptor: .cyan, applicationIndices: positions)
     }
     
-    static func cyanEndsLine(_ positions: Int...) -> AppliedDescriptor {
+    static func cyanEndsLine(at positions: Int...) -> AppliedDescriptor {
         AppliedDescriptor(descriptor: .cyanEndsLine, applicationIndices: positions)
     }
     
-    static func cyan(_ formats: Set<TextFormat>, positions: Int...) -> AppliedDescriptor {
+    static func cyan(_ formats: Set<TextFormat>, at positions: Int...) -> AppliedDescriptor {
         AppliedDescriptor(
             descriptor: .custom(color: .cyan, formats: formats),
             applicationIndices: positions)
     }
     
-    static func cyanEndsLine(_ formats: Set<TextFormat>, positions: Int...) -> AppliedDescriptor {
+    static func cyanEndsLine(_ formats: Set<TextFormat>, at positions: Int...) -> AppliedDescriptor {
         AppliedDescriptor(
             descriptor: .customEndsLine(color: .cyan, formats: formats),
             applicationIndices: positions)
     }
     
     
-    static func gray(_ positions: Int...) -> AppliedDescriptor {
+    static func gray(at positions: Int...) -> AppliedDescriptor {
         AppliedDescriptor(descriptor: .gray, applicationIndices: positions)
     }
     
-    static func grayEndsLine(_ positions: Int...) -> AppliedDescriptor {
+    static func grayEndsLine(at positions: Int...) -> AppliedDescriptor {
         AppliedDescriptor(descriptor: .grayEndsLine, applicationIndices: positions)
     }
     
-    static func gray(_ formats: Set<TextFormat>, positions: Int...) -> AppliedDescriptor {
+    static func gray(_ formats: Set<TextFormat>, at positions: Int...) -> AppliedDescriptor {
         AppliedDescriptor(
             descriptor: .custom(color: .lightGray, formats: formats),
             applicationIndices: positions)
     }
     
-    static func grayEndsLine(_ formats: Set<TextFormat>, positions: Int...) -> AppliedDescriptor {
+    static func grayEndsLine(_ formats: Set<TextFormat>, at positions: Int...) -> AppliedDescriptor {
         AppliedDescriptor(
             descriptor: .customEndsLine(color: .lightGray, formats: formats),
             applicationIndices: positions)
     }
     
     
-    static func white(_ positions: Int...) -> AppliedDescriptor {
+    static func white(at positions: Int...) -> AppliedDescriptor {
         AppliedDescriptor(descriptor: .white, applicationIndices: positions)
     }
     
-    static func whiteEndsLine(_ positions: Int...) -> AppliedDescriptor {
+    static func whiteEndsLine(at positions: Int...) -> AppliedDescriptor {
         AppliedDescriptor(descriptor: .whiteEndsLine, applicationIndices: positions)
     }
     
-    static func white(_ formats: Set<TextFormat>, positions: Int...) -> AppliedDescriptor {
+    static func white(_ formats: Set<TextFormat>, at positions: Int...) -> AppliedDescriptor {
         AppliedDescriptor(
             descriptor: .custom(color: .white, formats: formats),
             applicationIndices: positions)
     }
     
-    static func whiteEndsLine(_ formats: Set<TextFormat>, positions: Int...) -> AppliedDescriptor {
+    static func whiteEndsLine(_ formats: Set<TextFormat>, at positions: Int...) -> AppliedDescriptor {
         AppliedDescriptor(
             descriptor: .customEndsLine(color: .white, formats: formats),
             applicationIndices: positions)
@@ -254,7 +254,7 @@ public extension AppliedDescriptor {
         color: TextColor,
         background: BackgroundColor = .normal,
         formats: Set<TextFormat> = [],
-        positions: Int...
+        at positions: Int...
     ) -> AppliedDescriptor {
         let descriptor = OutputDescriptor(color: color, background: background, formats: formats, endsLine: false)
         return AppliedDescriptor(descriptor: descriptor, applicationIndices: positions)
@@ -264,7 +264,7 @@ public extension AppliedDescriptor {
         color: TextColor,
         background: BackgroundColor = .normal,
         formats: Set<TextFormat> = [],
-        positions: Int...
+        at positions: Int...
     ) -> AppliedDescriptor {
         let descriptor = OutputDescriptor(color: color, background: background, formats: formats, endsLine: true)
         return AppliedDescriptor(descriptor: descriptor, applicationIndices: positions)
