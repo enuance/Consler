@@ -113,7 +113,7 @@ internal final class ConslerWriter {
     }
     
     internal func write(_ rawValue: String) {
-        stream <<< rawValue <<< reset
+        stream <<< rawValue //<<< reset
         flush()
     }
     
