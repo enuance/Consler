@@ -155,7 +155,7 @@ public enum TextColor: FormatTranslatable {
         
         switch self {
             
-        case .normal: return "[39m"
+        case .normal: return ""//"[39m"
         case .black: return "[30m"
         case .red: return "[31m"
         case .green: return "[32m"
@@ -214,7 +214,7 @@ public enum BackgroundColor: FormatTranslatable {
         
         switch self {
             
-        case .normal: return "[49m"
+        case .normal: return ""//"[49m"
         case .black: return "[40m"
         case .red: return "[41m"
         case .green: return "[42m"
