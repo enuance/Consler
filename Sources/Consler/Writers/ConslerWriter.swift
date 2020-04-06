@@ -84,7 +84,7 @@ internal final class ConslerWriter {
         stream: OutputByteStream
     ) {
         
-        guard !value.isEmpty && !formats.isEmpty else { stream <<< value; return }
+        guard !value.isEmpty else { stream <<< value; return }
         
         let rawTextColor = textColor.translated
         let rawBackgroundColor = backgroundColor.translated
