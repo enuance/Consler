@@ -88,7 +88,7 @@ internal final class ConslerWriter {
         
         let rawTextColor = textColor.translated
         let rawBackgroundColor = backgroundColor.translated
-        let rawFormats = formats.isEmpty ? [""] : formats.map { $0.translated }
+        let rawFormats = formats.map { $0.translated }
         let streamArguments = [rawTextColor, rawBackgroundColor] + rawFormats + [value, reset]
         _ = streamArguments.reduce(stream, <<<)
         
@@ -113,7 +113,7 @@ internal final class ConslerWriter {
     }
     
     internal func write(_ rawValue: String) {
-        stream <<< rawValue //<<< reset
+        stream <<< rawValue <<< reset
         flush()
     }
     
