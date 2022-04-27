@@ -11,13 +11,13 @@ let package = Package(
             targets: ["Consler"]),
     ],
     dependencies: [
-        // 🧰 SPMUtilities for Output Byte Stream Wrappers.
-        .package(url: "https://github.com/apple/swift-package-manager", .exact("0.5.0"))
+        // 🧰 Terminal Controller.
+        .package(url: "https://github.com/enuance/TerminalController", .exact("0.0.1"))
     ],
     targets: [
         .target(
             name: "Consler",
-            dependencies: ["SPMUtility"]),
+            dependencies: ["TerminalController"]),
         .testTarget(
             name: "ConslerTests",
             dependencies: ["Consler"]),

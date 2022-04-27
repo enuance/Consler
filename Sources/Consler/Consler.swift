@@ -24,8 +24,8 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //  SOFTWARE.
 
-import var Basic.stdoutStream
-import var Basic.stderrStream
+import var TerminalController.stdoutStream
+import var TerminalController.stderrStream
 import Foundation
 
 /// Consler provides convenient access to input and output to the console. Notabley, the output functions provide an easy way to format
