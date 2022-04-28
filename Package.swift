@@ -12,7 +12,7 @@ let package = Package(
     ],
     dependencies: [
         // 🧰 Terminal Controller.
-        .package(url: "https://github.com/enuance/TerminalController", .exact("0.0.1"))
+        .package(url: "https://github.com/enuance/TerminalController", .exact("0.0.2"))
     ],
     targets: [
         .target(
